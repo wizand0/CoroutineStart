@@ -24,65 +24,65 @@ class MainActivity : AppCompatActivity() {
     private fun loadData() {
         binding.progress.isVisible = true
         binding.buttonLoad.isEnabled = false
-//        loadCity {
-//            binding.tvLocation.text = it
-//            loadTemperature(it) {
-//                binding.tvTemperature.text = it.toString()
-//                binding.progress.isVisible = false
-//                binding.buttonLoad.isEnabled = true
+        loadCity {
+            binding.tvLocation.text = it
+            loadTemperature(it) {
+                binding.tvTemperature.text = it.toString()
+                binding.progress.isVisible = false
+                binding.buttonLoad.isEnabled = true
+            }
+        }
+    }
+//        loadCity { city -> // Изменил название параметра it на city для наглядности
+//            runOnUiThread { // Переключаемся на главный поток для обновления UI
+//                binding.tvLocation.text = city
+//                loadTemperature(city) { temperature -> // Изменил название параметра it на temperature для наглядности
+//                    runOnUiThread { // Переключаемся на главный поток для обновления UI
+//                        binding.tvTemperature.text = temperature.toString()
+//                        binding.progress.isVisible = false
+//                        binding.buttonLoad.isEnabled = true
+//                    }
+//                }
 //            }
 //        }
 //    }
-        loadCity { city -> // Изменил название параметра it на city для наглядности
-            runOnUiThread { // Переключаемся на главный поток для обновления UI
-                binding.tvLocation.text = city
-                loadTemperature(city) { temperature -> // Изменил название параметра it на temperature для наглядности
-                    runOnUiThread { // Переключаемся на главный поток для обновления UI
-                        binding.tvTemperature.text = temperature.toString()
-                        binding.progress.isVisible = false
-                        binding.buttonLoad.isEnabled = true
-                    }
-                }
-            }
-        }
-    }
 
     private fun loadCity(callback: (String) -> Unit) {
-//        thread {
-//            Thread.sleep(5000)
-//            callback.invoke("Moscow")
-//        }
         thread {
             Thread.sleep(5000)
-            runOnUiThread { // Переключаемся на главный поток перед вызовом callback
-                callback.invoke("Moscow")
-            }
+            callback.invoke("Moscow")
         }
+//        thread {
+//            Thread.sleep(5000)
+//            runOnUiThread { // Переключаемся на главный поток перед вызовом callback
+//                callback.invoke("Moscow")
+//            }
+//        }
     }
 
     private fun loadTemperature(city: String, callback: (Int) -> Unit) {
-//        thread {
-//            Toast.makeText(
-//                this,
-//                getString(R.string.loading_temperature_toast, city),
-//                Toast.LENGTH_SHORT
-//            ).show()
-//            Thread.sleep(5000)
-//            callback.invoke(17)
-//        }
-//    }
         thread {
-            runOnUiThread { // Переключаемся на главный поток для Toast
-                Toast.makeText(
-                    this@MainActivity, // Используйте this@MainActivity для контекста в лямбде
-                    getString(R.string.loading_temperature_toast, city),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+            Toast.makeText(
+                this,
+                getString(R.string.loading_temperature_toast, city),
+                Toast.LENGTH_SHORT
+            ).show()
             Thread.sleep(5000)
-            runOnUiThread { // Переключаемся на главный поток перед вызовом callback
-                callback.invoke(17)
-            }
+            callback.invoke(17)
         }
     }
+//        thread {
+//            runOnUiThread { // Переключаемся на главный поток для Toast
+//                Toast.makeText(
+//                    this@MainActivity, // Используйте this@MainActivity для контекста в лямбде
+//                    getString(R.string.loading_temperature_toast, city),
+//                    Toast.LENGTH_SHORT
+//                ).show()
+//            }
+//            Thread.sleep(5000)
+////            runOnUiThread { // Переключаемся на главный поток перед вызовом callback
+//                callback.invoke(17)
+//            }
+//        }
+//    }
 }
